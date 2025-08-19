@@ -4,7 +4,7 @@
   <base target="_top">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Supplier Database</title>
+  <title>Supplier Database V2</title>
   <link rel="icon" type="image/png" href="https://i.imgur.com/U4WPjmA.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,34 +13,38 @@
   <script src="https://cdn.tailwindcss.com"></script>
   
   <style>
+    /* V2 Color Scheme */
     :root {
-        --bg-main: linear-gradient(-45deg, #000000, #111827, #1f2937, #000000);
-        --text-main: #e5e7eb;
-        --text-secondary: #9ca3af;
-        --text-on-glass: #e5e7eb;
-        --border-color: rgba(55, 65, 81, 0.5);
-        --glass-bg: rgba(31, 41, 55, 0.7);
-        --input-bg: rgba(55, 65, 81, 0.5);
-        --code-block-bg: #111827;
-        --table-header-bg: rgba(17, 24, 39, 0.5);
-        --table-body-bg: rgba(31, 41, 55, 0.5);
+        --bg-main: linear-gradient(-45deg, #020617, #0f172a, #1e293b, #020617);
+        --text-main: #e2e8f0; /* slate-200 */
+        --text-secondary: #94a3b8; /* slate-400 */
+        --text-on-glass: #e2e8f0;
+        --border-color: rgba(51, 65, 85, 0.7); /* slate-700 */
+        --glass-bg: rgba(30, 41, 59, 0.7); /* slate-800 */
+        --input-bg: rgba(51, 65, 85, 0.5); /* slate-700 */
+        --code-block-bg: #0f172a; /* slate-900 */
+        --table-header-bg: rgba(15, 23, 42, 0.5); /* slate-900 */
+        --table-body-bg: rgba(30, 41, 59, 0.5); /* slate-800 */
+        --accent-color: #14b8a6; /* teal-500 */
+        --accent-color-hover: #0d9488; /* teal-600 */
+        --accent-focus-ring: #2dd4bf; /* teal-400 */
     }
 
     html.light-mode {
-        --bg-main: linear-gradient(-45deg, #f9fafb, #e5e7eb, #d1d5db, #f9fafb);
-        --text-main: #1f2937; /* gray-800 */
-        --text-secondary: #374151; /* gray-700, darkened for better contrast */
-        --text-on-glass: #1f2937;
-        --border-color: rgba(209, 213, 219, 0.8); /* Increased opacity */
+        --bg-main: linear-gradient(-45deg, #f8fafc, #f1f5f9, #e2e8f0, #f8fafc);
+        --text-main: #1e293b; /* slate-800 */
+        --text-secondary: #475569; /* slate-600 */
+        --text-on-glass: #1e293b;
+        --border-color: rgba(203, 213, 225, 0.8); /* slate-300 */
         --glass-bg: rgba(255, 255, 255, 0.6);
-        --input-bg: rgba(229, 231, 235, 0.5);
-        --code-block-bg: #f3f4f6;
-        --table-header-bg: rgba(229, 231, 235, 0.8); /* Lighter table header */
-        --table-body-bg: rgba(249, 250, 251, 0.8);   /* Lighter table body */
+        --input-bg: rgba(226, 232, 240, 0.5); /* slate-200 */
+        --code-block-bg: #f1f5f9; /* slate-100 */
+        --table-header-bg: rgba(226, 232, 240, 0.8); /* slate-200 */
+        --table-body-bg: rgba(248, 250, 252, 0.8); /* slate-50 */
     }
 
-    body { 
-        font-family: 'Inter', sans-serif; 
+    body {  
+        font-family: 'Inter', sans-serif;  
         background: var(--bg-main);
         background-size: 400% 400%;
         animation: gradientBG 15s ease infinite;
@@ -51,15 +55,17 @@
         50% { background-position: 100% 50%; }
         100% { background-position: 0% 50%; }
     }
-    .loader { border: 4px solid #4a5568; border-top: 4px solid #4f46e5; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+    .loader { border: 4px solid #475569; border-top: 4px solid var(--accent-color); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    .skeleton-card { background-color: #1f2937; border-radius: 0.5rem; overflow: hidden; border: 1px solid #374151; }
-    .skeleton-image { background-color: #374151; height: 12rem; }
-    .skeleton-text { background-color: #374151; height: 1rem; margin-bottom: 0.5rem; border-radius: 0.25rem; }
+    
+    .skeleton-card { background-color: #1e293b; border-radius: 0.5rem; overflow: hidden; border: 1px solid #334155; }
+    .skeleton-image { background-color: #334155; height: 12rem; }
+    .skeleton-text { background-color: #334155; height: 1rem; margin-bottom: 0.5rem; border-radius: 0.25rem; }
     @keyframes pulse { 50% { opacity: .5; } }
     .skeleton-card, .skeleton-image, .skeleton-text { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    
     .result-card { opacity: 0; transform: translateY(20px); animation: card-fade-in 0.5s forwards; transition: all 0.2s ease-in-out; }
-    .result-card:hover { transform: translateY(15px) scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+    .result-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
     @keyframes card-fade-in { to { opacity: 1; transform: translateY(0); } }
     
     .tab-button {
@@ -69,7 +75,7 @@
         transition: all 0.3s ease;
     }
     .tab-button:hover { color: var(--text-main); }
-    .tab-button.active { border-bottom-color: #4f46e5; color: var(--text-main); font-weight: 600; }
+    .tab-button.active { border-bottom-color: var(--accent-color); color: var(--text-main); font-weight: 600; }
     
     .glass-modal {
         background-color: var(--glass-bg);
@@ -94,48 +100,45 @@
     }
     
     /* Theme-specific overrides */
-    #header-title, #header-subtitle, #user-email-display { color: var(--text-main); }
-    html.light-mode .prose, html.light-mode .search-label, html.light-mode #no-results, html.light-mode #pagination-container { color: var(--text-main); }
+    html.light-mode .prose, html.light-mode .search-label, html.light-mode #no-results { color: var(--text-main); }
     html.light-mode .prose h2, html.light-mode .prose h3 { color: var(--text-main); }
-    html.light-mode .result-card h3 { color: #111827; }
+    html.light-mode .result-card h3 { color: #0f172a; }
     html.light-mode .result-card p { color: var(--text-secondary); }
-    .result-card h3 { color: #f9fafb; font-weight: 600; }
-    .result-card p { color: #9ca3af; }
-    html.light-mode #item-modal strong { color: #111827; }
+    .result-card h3 { color: #f1f5f9; font-weight: 600; }
+    .result-card p { color: #94a3b8; }
+    html.light-mode #item-modal strong { color: #1e293b; }
     html.light-mode #item-modal span { color: var(--text-secondary); }
-    html.light-mode #supplier-filter-modal h3, html.light-mode #supplier-filter-modal label { color: #1f2937; }
-    .text-green-400 { color: #4ade80 !important; }
-    html.light-mode .text-green-400 { color: #16a34a !important; }
-    html.light-mode ::placeholder { color: #6b7280; }
-    input, select, textarea { background-color: var(--input-bg); color: var(--text-on-glass); }
+    html.light-mode #supplier-filter-modal h3, html.light-mode #supplier-filter-modal label { color: #1e293b; }
+    .text-green-400 { color: #34d399 !important; } /* Adjusted green for better harmony */
+    html.light-mode .text-green-400 { color: #059669 !important; }
+    html.light-mode ::placeholder { color: #64748b; }
+    input, select, textarea { background-color: var(--input-bg); color: var(--text-on-glass); border: 1px solid var(--border-color); }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent-color); ring: 1; ring-color: var(--accent-color); }
     html.light-mode input, html.light-mode select, html.light-mode textarea { color: var(--text-main); }
     html.light-mode #api-key-tab-content .text-yellow-400 { color: #92400e; }
     html.light-mode #api-key-tab-content .bg-yellow-900\/30 { background-color: rgba(252, 211, 77, 0.3); }
     html.light-mode #recent-calls-tbody .text-gray-500, html.light-mode #recent-calls-tbody .text-gray-400 { color: var(--text-secondary); }
     html.light-mode #recent-calls-tbody .text-red-400 { color: #dc2626; }
     
-    /* Button Click Animation */
     .btn-click-effect:active {
         transform: scale(0.98);
         transition: transform 0.1s ease;
     }
 
-    /* Modal Table Styling */
     #item-modal table thead { background-color: var(--table-header-bg); }
     #item-modal table tbody { background-color: var(--table-body-bg); }
     
-    /* Theme Toggle Switch */
     #theme-toggle-btn:active { transform: scale(0.95); }
   </style>
 </head>
-<body class="text-gray-200">
+<body class="text-gray-300">
 
   <!-- Authentication Container -->
   <div id="auth-container" class="min-h-screen flex items-center justify-center p-4">
     <div class="max-w-md w-full glass-modal p-8 rounded-xl shadow-lg">
       <img src="https://i.imgur.com/GQya5pg.png" alt="Brand Logo" class="h-20 mx-auto mb-6"/>
       <h2 id="auth-title" class="text-2xl font-bold text-center mb-2">Member Login</h2>
-      <p id="auth-subtitle" class="text-center mb-6">Access the Supplier Database</p>
+      <p id="auth-subtitle" class="text-center text-slate-400 mb-6">Access the Supplier Database V2</p>
       
       <div id="auth-message" class="hidden px-4 py-2 rounded-lg mb-4 text-sm"></div>
 
@@ -143,16 +146,16 @@
       <form id="login-form">
         <div class="mb-4">
           <label for="email" class="block text-sm font-medium">Email Address</label>
-          <input type="email" id="email" required class="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2.5">
+          <input type="email" id="email" required class="mt-1 block w-full rounded-md shadow-sm focus:border-[var(--accent-color)] focus:ring-[var(--accent-color)] p-2.5">
         </div>
         <div class="mb-4">
           <label for="password" class="block text-sm font-medium">Password</label>
-          <input type="password" id="password" required class="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2.5">
+          <input type="password" id="password" required class="mt-1 block w-full rounded-md shadow-sm focus:border-[var(--accent-color)] focus:ring-[var(--accent-color)] p-2.5">
         </div>
-        <button type="button" id="show-forgot-password-btn" class="text-xs text-indigo-400 hover:text-indigo-300 text-right w-full mb-4 -mt-2">Forgot Password?</button>
+        <button type="button" id="show-forgot-password-btn" class="text-xs text-[var(--accent-color)] hover:text-[var(--accent-color-hover)] text-right w-full mb-4 -mt-2">Forgot Password?</button>
         <div id="auth-buttons">
-          <button type="submit" id="login-btn" class="w-full inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors btn-click-effect">Login</button>
-          <button type="button" id="show-signup-btn" class="w-full mt-3 text-center text-sm text-indigo-400 hover:text-indigo-300">Don't have an account? Sign Up</button>
+          <button type="submit" id="login-btn" class="w-full inline-flex justify-center rounded-md border border-transparent bg-[var(--accent-color)] py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:bg-[var(--accent-color-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-focus-ring)] focus:ring-offset-2 transition-colors btn-click-effect">Login</button>
+          <button type="button" id="show-signup-btn" class="w-full mt-3 text-center text-sm text-[var(--accent-color)] hover:text-[var(--accent-color-hover)]">Don't have an account? Sign Up</button>
         </div>
       </form>
 
@@ -160,15 +163,15 @@
       <form id="signup-form" class="hidden">
         <div class="mb-4">
           <label for="signup-email" class="block text-sm font-medium">Email Address</label>
-          <input type="email" id="signup-email" required class="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2.5">
+          <input type="email" id="signup-email" required class="mt-1 block w-full rounded-md shadow-sm focus:border-[var(--accent-color)] focus:ring-[var(--accent-color)] p-2.5">
         </div>
         <div class="mb-6">
           <label for="signup-password" class="block text-sm font-medium">Create Password (min. 6 characters)</label>
-          <input type="password" id="signup-password" required class="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2.5">
+          <input type="password" id="signup-password" required class="mt-1 block w-full rounded-md shadow-sm focus:border-[var(--accent-color)] focus:ring-[var(--accent-color)] p-2.5">
         </div>
         <div id="signup-buttons">
-          <button type="submit" id="signup-btn" class="w-full inline-flex justify-center rounded-md border border-transparent bg-teal-600 py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-colors btn-click-effect">Create Account</button>
-          <button type="button" id="show-login-btn-from-signup" class="w-full mt-3 text-center text-sm text-indigo-400 hover:text-indigo-300">Already have an account? Login</button>
+          <button type="submit" id="signup-btn" class="w-full inline-flex justify-center rounded-md border border-transparent bg-cyan-600 py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-colors btn-click-effect">Create Account</button>
+          <button type="button" id="show-login-btn-from-signup" class="w-full mt-3 text-center text-sm text-[var(--accent-color)] hover:text-[var(--accent-color-hover)]">Already have an account? Login</button>
         </div>
       </form>
       
@@ -176,11 +179,11 @@
       <form id="forgot-password-form" class="hidden">
         <div class="mb-4">
             <label for="reset-email" class="block text-sm font-medium">Email Address</label>
-            <input type="email" id="reset-email" required class="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2.5">
+            <input type="email" id="reset-email" required class="mt-1 block w-full rounded-md shadow-sm focus:border-[var(--accent-color)] focus:ring-[var(--accent-color)] p-2.5">
         </div>
         <div id="forgot-password-buttons">
             <button type="submit" id="reset-password-btn" class="w-full inline-flex justify-center rounded-md border border-transparent bg-orange-600 py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors btn-click-effect">Send Reset Link</button>
-            <button type="button" id="show-login-btn-from-forgot" class="w-full mt-3 text-center text-sm text-indigo-400 hover:text-indigo-300">Back to Login</button>
+            <button type="button" id="show-login-btn-from-forgot" class="w-full mt-3 text-center text-sm text-[var(--accent-color)] hover:text-[var(--accent-color-hover)]">Back to Login</button>
         </div>
       </form>
 
@@ -189,33 +192,37 @@
 
   <!-- Main Application Container (hidden by default) -->
   <div id="main-app-container" class="hidden">
-    <!-- Logged-in User Nav -->
-    <div class="absolute top-4 right-6 text-sm z-20 flex items-center gap-4">
-      <!-- Theme Toggle Button -->
-      <button id="theme-toggle-btn" class="p-2 rounded-full hover:bg-gray-700/50 transition-colors">
-          <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-300 hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-          <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-      </button>
-      <span id="user-email-display"></span>
-      <button id="logout-btn" class="font-semibold text-indigo-400 hover:text-indigo-300">Logout</button>
-    </div>
+    <!-- V2 Header / Navigation Bar -->
+    <header class="sticky top-0 z-30 w-full glass-modal p-4 shadow-lg">
+        <div class="container mx-auto flex items-center justify-between">
+            <!-- Logo and Title -->
+            <div class="flex items-center gap-3">
+                <img id="header-logo" src="https://i.imgur.com/GQya5pg.png" alt="Brand Logo" class="h-10"/>
+                <h1 class="text-xl font-bold hidden sm:block">Supplier DB V2</h1>
+            </div>
 
-    <div class="container mx-auto p-4 md:p-8 relative">
-      <div id="header" class="mb-8 text-center">
-        <img id="header-logo" src="https://i.imgur.com/GQya5pg.png" alt="Brand Logo" style="height: 80px; margin: 0 auto 1rem auto;"/>
-        <h1 id="header-title" class="text-3xl md:text-4xl font-bold">Supplier Database</h1>
-        <p id="header-subtitle" class="mt-1">Instantly search or browse items from all suppliers.</p>
-      </div>
+            <!-- Tab Navigation -->
+            <div class="flex-grow flex justify-center">
+                <div class="flex space-x-1 bg-slate-900/50 p-1 rounded-lg">
+                    <button id="tab-database" class="tab-button active px-4 py-2 font-medium text-sm rounded-md">Database</button>
+                    <button id="tab-api-docs" class="tab-button px-4 py-2 font-medium text-sm rounded-md">API Docs</button>
+                    <button id="tab-api-key" class="tab-button px-4 py-2 font-medium text-sm rounded-md">API Key</button>
+                </div>
+            </div>
 
-      <!-- Tab Navigation -->
-      <div class="mb-8 border-b border-gray-700 flex justify-center">
-        <div class="flex space-x-2">
-          <button id="tab-database" class="tab-button active px-6 py-3 font-medium text-sm">Database</button>
-          <button id="tab-api-docs" class="tab-button px-6 py-3 font-medium text-sm">API Documentation</button>
-          <button id="tab-api-key" class="tab-button px-6 py-3 font-medium text-sm">API Key</button>
+            <!-- User Info and Controls -->
+            <div class="flex items-center gap-4 text-sm">
+                <span id="user-email-display" class="hidden md:inline"></span>
+                <button id="theme-toggle-btn" class="p-2 rounded-full hover:bg-slate-700/50 transition-colors">
+                    <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-300 hidden" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 14.464A1 1 0 106.465 13.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zm-1.414-2.12a1 1 0 011.414 0l.707.707a1 1 0 11-1.414 1.414l-.707-.707a1 1 0 010-1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" clip-rule="evenodd" /></svg>
+                    <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-300" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" /></svg>
+                </button>
+                <button id="logout-btn" class="font-semibold text-[var(--accent-color)] hover:text-[var(--accent-color-hover)]">Logout</button>
+            </div>
         </div>
-      </div>
+    </header>
 
+    <main class="container mx-auto p-4 md:p-8 relative">
       <!-- Tab Content -->
       <div id="tab-content-container">
         <!-- Database Tab -->
@@ -228,12 +235,12 @@
                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <svg class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
                    </div>
-                   <input type="text" id="search-input" placeholder="Enter UPC, Item Name, etc." class="block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5 pl-10">
+                   <input type="text" id="search-input" placeholder="Enter UPC, Item Name, etc." class="block w-full rounded-md shadow-sm focus:border-[var(--accent-color)] focus:ring-[var(--accent-color)] sm:text-sm p-2.5 pl-10">
                 </div>
               </div>
               <div>
                 <label for="search-type" class="search-label block text-sm font-medium mb-1">Search By</label>
-                <select id="search-type" class="block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5">
+                <select id="search-type" class="block w-full rounded-md shadow-sm focus:border-[var(--accent-color)] focus:ring-[var(--accent-color)] sm:text-sm p-2.5">
                   <option value="upc" selected>UPC</option>
                   <option value="itemName_lowercase">Item Name</option>
                   <option value="brand">Brand</option>
@@ -241,32 +248,32 @@
                 </select>
               </div>
               <div class="md:col-span-2 flex items-center space-x-3">
-                <button id="search-btn" class="w-full inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors btn-click-effect">Search</button>
-                <button id="browse-all-btn" class="w-full inline-flex justify-center rounded-md border border-gray-600 bg-gray-700 py-2.5 px-4 text-sm font-medium text-gray-200 shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors btn-click-effect">Browse All</button>
+                <button id="search-btn" class="w-full inline-flex justify-center rounded-md border border-transparent bg-[var(--accent-color)] py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:bg-[var(--accent-color-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-focus-ring)] focus:ring-offset-2 transition-colors btn-click-effect">Search</button>
+                <button id="browse-all-btn" class="w-full inline-flex justify-center rounded-md border border-slate-600 bg-slate-700 py-2.5 px-4 text-sm font-medium text-slate-200 shadow-sm hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-[var(--accent-focus-ring)] focus:ring-offset-2 transition-colors btn-click-effect">Browse All</button>
               </div>
             </div>
-             <div id="bulk-search-section" class="mt-4 pt-4 border-t border-gray-700">
+             <div id="bulk-search-section" class="mt-4 pt-4 border-t border-slate-700">
                 <label class="search-label block text-sm font-medium">Bulk UPC Search</label>
-                <textarea id="upc-list-input" rows="4" class="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" placeholder="Paste a list of UPCs, one per line (up to 500)"></textarea>
-                <button id="search-list-btn" class="mt-2 w-full inline-flex justify-center rounded-md border border-transparent bg-teal-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-colors btn-click-effect">Search UPC List</button>
-            </div>
+                <textarea id="upc-list-input" rows="4" class="mt-1 block w-full rounded-md shadow-sm focus:border-[var(--accent-color)] focus:ring-[var(--accent-color)] sm:text-sm p-2" placeholder="Paste a list of UPCs, one per line (up to 500)"></textarea>
+                <button id="search-list-btn" class="mt-2 w-full inline-flex justify-center rounded-md border border-transparent bg-cyan-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-colors btn-click-effect">Search UPC List</button>
+             </div>
           </div>
           
           <div id="controls-bar" class="mb-4 flex justify-end items-center gap-4 hidden">
-             <button id="filter-suppliers-btn" type="button" class="inline-flex items-center px-4 py-2 border border-sky-500 text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 focus:z-10 focus:outline-none focus:ring-1 focus:ring-sky-500 btn-click-effect">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" /></svg>
-                Filter Suppliers
-             </button>
-             <button id="export-csv-btn" type="button" class="inline-flex items-center px-4 py-2 border border-green-600 text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:z-10 focus:outline-none focus:ring-1 focus:ring-green-500 btn-click-effect">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
-                Export as CSV
+              <button id="filter-suppliers-btn" type="button" class="inline-flex items-center px-4 py-2 border border-sky-500 text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 focus:z-10 focus:outline-none focus:ring-1 focus:ring-sky-500 btn-click-effect">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" /></svg>
+                  Filter Suppliers
               </button>
+              <button id="export-csv-btn" type="button" class="inline-flex items-center px-4 py-2 border border-green-600 text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:z-10 focus:outline-none focus:ring-1 focus:ring-green-500 btn-click-effect">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                  Export as CSV
+               </button>
           </div>
 
-          <div id="loader-container" class="hidden"></div>
+          <div id="loader-container" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"></div>
           <div id="export-loader" class="flex justify-center items-center py-20 hidden">
-             <div class="loader"></div>
-             <p class="ml-4 text-gray-400">Generating your export file...</p>
+              <div class="loader"></div>
+              <p class="ml-4 text-slate-400">Generating your export file...</p>
           </div>
           <div id="error-display" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative" role="alert">
             <strong class="font-bold">Error:</strong>
@@ -275,13 +282,13 @@
 
           <div id="results-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"></div>
           
-          <div id="no-results" class="text-center py-16 text-gray-500">
-            <div class="inline-block bg-gray-800 p-6 rounded-full">
-              <svg class="h-16 w-16 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+          <div id="no-results" class="text-center py-16 text-slate-500">
+            <div class="inline-block bg-slate-800 p-6 rounded-full">
+              <svg class="h-16 w-16 text-slate-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
             </div>
-            <h3 id="no-results-title" class="text-xl font-semibold mt-4 text-gray-300">No Results Found</h3>
-            <p id="no-results-subtitle" class="text-gray-400">Try a different search term or browse all items.</p>
-            <button id="no-results-browse-btn" class="mt-4 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700">Browse All Items</button>
+            <h3 id="no-results-title" class="text-xl font-semibold mt-4 text-slate-300">No Results Found</h3>
+            <p id="no-results-subtitle" class="text-slate-400">Try a different search term or browse all items.</p>
+            <button id="no-results-browse-btn" class="mt-4 inline-flex justify-center rounded-md border border-transparent bg-[var(--accent-color)] py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:bg-[var(--accent-color-hover)]">Browse All Items</button>
           </div>
 
           <div id="pagination-container" class="mt-10 flex justify-center items-center space-x-2"></div>
@@ -342,7 +349,7 @@
                 <h3 class="text-xl font-semibold text-white mt-6 mb-2">Data Object Fields</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left">
-                        <thead class="border-b border-gray-600">
+                        <thead class="border-b border-slate-600">
                             <tr>
                                 <th class="p-2">Field</th>
                                 <th class="p-2">Type</th>
@@ -350,42 +357,42 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="border-b border-gray-700">
+                            <tr class="border-b border-slate-700">
                                 <td class="p-2 font-mono">sku</td>
                                 <td class="p-2">String</td>
                                 <td class="p-2">The unique Stock Keeping Unit for the product.</td>
                             </tr>
-                            <tr class="border-b border-gray-700">
+                            <tr class="border-b border-slate-700">
                                 <td class="p-2 font-mono">upc</td>
                                 <td class="p-2">String</td>
                                 <td class="p-2">The Universal Product Code.</td>
                             </tr>
-                            <tr class="border-b border-gray-700">
+                            <tr class="border-b border-slate-700">
                                 <td class="p-2 font-mono">itemName</td>
                                 <td class="p-2">String</td>
                                 <td class="p-2">The name of the product.</td>
                             </tr>
-                            <tr class="border-b border-gray-700">
+                            <tr class="border-b border-slate-700">
                                 <td class="p-2 font-mono">brand</td>
                                 <td class="p-2">String</td>
                                 <td class="p-2">The brand of the product.</td>
                             </tr>
-                            <tr class="border-b border-gray-700">
+                            <tr class="border-b border-slate-700">
                                 <td class="p-2 font-mono">size</td>
                                 <td class="p-2">String</td>
                                 <td class="p-2">The size of the product (e.g., "100ml").</td>
                             </tr>
-                            <tr class="border-b border-gray-700">
+                            <tr class="border-b border-slate-700">
                                 <td class="p-2 font-mono">msrp</td>
                                 <td class="p-2">Number</td>
                                 <td class="p-2">The Manufacturer's Suggested Retail Price.</td>
                             </tr>
-                             <tr class="border-b border-gray-700">
+                             <tr class="border-b border-slate-700">
                                 <td class="p-2 font-mono">asin</td>
                                 <td class="p-2">String</td>
                                 <td class="p-2">The Amazon Standard Identification Number.</td>
                             </tr>
-                            <tr class="border-b border-gray-700">
+                            <tr class="border-b border-slate-700">
                                 <td class="p-2 font-mono">supplier_X_...</td>
                                 <td class="p-2">String/Number</td>
                                 <td class="p-2">Supplier data is flattened. 'X' is the supplier number, sorted by lowest price first.</td>
@@ -426,8 +433,8 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
                     <div id="api-key-display-area" class="hidden">
                         <label class="block text-sm font-medium">Your API Key</label>
                         <div class="mt-1 relative flex items-center">
-                            <input type="password" id="api-key-input" readonly class="block w-full rounded-md border-gray-600 bg-gray-900/50 font-mono p-2.5 pr-10">
-                            <button id="toggle-api-key-visibility" class="absolute inset-y-0 right-10 pr-3 flex items-center text-gray-400 hover:text-white">
+                            <input type="password" id="api-key-input" readonly class="block w-full rounded-md border-slate-600 bg-slate-900/50 font-mono p-2.5 pr-10">
+                            <button id="toggle-api-key-visibility" class="absolute inset-y-0 right-10 pr-3 flex items-center text-slate-400 hover:text-white">
                                 <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                   <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                                   <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.022 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
@@ -437,11 +444,11 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
                                   <path d="M10 17a9.953 9.953 0 01-4.542-1.074l-1.78-1.781a1 1 0 011.414-1.414l1.697 1.697A8.018 8.018 0 0110 15c4.478 0 8.268-2.943 9.542-7a10.014 10.014 0 01-1.542-3.31l-1.473-1.473a1 1 0 011.414-1.414l-14-14a1 1 0 01-1.414 1.414l1.78 1.781A9.953 9.953 0 0010 17z" />
                                 </svg>
                             </button>
-                            <button id="copy-api-key-btn" class="inline-flex items-center rounded-r-md border border-l-0 border-gray-600 bg-gray-700 px-4 text-sm font-medium text-gray-300 hover:bg-gray-600">Copy</button>
+                            <button id="copy-api-key-btn" class="inline-flex items-center rounded-r-md border border-l-0 border-slate-600 bg-slate-700 px-4 text-sm font-medium text-slate-300 hover:bg-slate-600">Copy</button>
                         </div>
                         <p id="copy-feedback" class="text-green-400 text-sm mt-2 hidden">Copied!</p>
                         
-                        <div class="mt-6 border-t border-gray-700 pt-6">
+                        <div class="mt-6 border-t border-slate-700 pt-6">
                             <p class="text-sm text-yellow-400 bg-yellow-900/30 p-3 rounded-lg"><strong class="font-semibold">Warning:</strong> If you generate a new key, your old key will be immediately revoked. Ensure you update any applications using the old key.</p>
                             <button id="revoke-and-generate-btn" class="mt-4 w-full inline-flex justify-center rounded-md border border-transparent bg-red-600 py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 btn-click-effect">Revoke and Generate New Key</button>
                         </div>
@@ -449,27 +456,27 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
 
                     <div id="generate-key-area" class="hidden">
                         <p class="text-center mb-4">You have not generated an API key yet.</p>
-                        <button id="generate-api-key-btn" class="w-full inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 btn-click-effect">Generate API Key</button>
+                        <button id="generate-api-key-btn" class="w-full inline-flex justify-center rounded-md border border-transparent bg-[var(--accent-color)] py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:bg-[var(--accent-color-hover)] btn-click-effect">Generate API Key</button>
                     </div>
                 </div>
                 
-                <div class="mt-8 border-t border-gray-700 pt-6">
+                <div class="mt-8 border-t border-slate-700 pt-6">
                     <h3 class="text-lg font-semibold mb-2">Usage (Last 24 Hours)</h3>
-                    <div class="w-full bg-gray-700 rounded-full h-2.5">
-                      <div id="api-usage-bar" class="bg-indigo-600 h-2.5 rounded-full" style="width: 0%"></div>
+                    <div class="w-full bg-slate-700 rounded-full h-2.5">
+                      <div id="api-usage-bar" class="bg-[var(--accent-color)] h-2.5 rounded-full" style="width: 0%"></div>
                     </div>
                     <p id="api-usage-text" class="text-right text-sm mt-1">0 / 300 calls</p>
 
                     <h3 class="text-lg font-semibold mt-6 mb-2">Recent API Calls</h3>
-                    <div class="border border-gray-700/50 rounded-lg overflow-hidden">
+                    <div class="border border-slate-700/50 rounded-lg overflow-hidden">
                         <table class="w-full">
-                            <thead class="bg-gray-900/50">
+                            <thead class="bg-slate-900/50">
                                 <tr>
                                     <th class="p-3 text-sm font-semibold text-left">Timestamp</th>
                                     <th class="p-3 text-sm font-semibold text-left">Status</th>
                                 </tr>
                             </thead>
-                            <tbody id="recent-calls-tbody" class="bg-gray-800/50">
+                            <tbody id="recent-calls-tbody" class="bg-slate-800/50">
                                 <!-- Rows will be populated by JavaScript -->
                             </tbody>
                         </table>
@@ -479,14 +486,14 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
             </div>
         </div>
       </div>
-    </div>
+    </main>
   </div>
 
   <!-- Modals and Lightbox (re-used by main app) -->
   <div id="item-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300 ease-in-out">
-    <div id="modal-overlay" class="absolute inset-0 bg-black/50"></div>
+    <div id="modal-overlay" class="absolute inset-0 bg-black/60"></div>
     <div id="modal-content" class="glass-modal rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col relative transform transition-all duration-300 ease-in-out opacity-0 scale-95">
-        <button id="modal-close-btn" class="absolute top-3 right-3 text-gray-400 hover:text-white z-10">
+        <button id="modal-close-btn" class="absolute top-3 right-3 text-slate-400 hover:text-white z-10">
             <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
         <div id="modal-loader" class="flex justify-center items-center p-10">
@@ -502,21 +509,21 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
   </div>
 
   <div id="supplier-filter-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
-    <div id="supplier-modal-overlay" class="absolute inset-0 bg-black/50"></div>
+    <div id="supplier-modal-overlay" class="absolute inset-0 bg-black/60"></div>
     <div class="glass-modal rounded-lg shadow-xl w-full max-w-md max-h-[90vh] flex flex-col relative">
-        <div class="flex justify-between items-center p-4 border-b border-gray-700">
+        <div class="flex justify-between items-center p-4 border-b border-slate-700">
             <h3 class="text-lg font-medium">Filter Suppliers</h3>
-            <button id="supplier-modal-close-btn" class="text-gray-400 hover:text-white">
+            <button id="supplier-modal-close-btn" class="text-slate-400 hover:text-white">
                 <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
         </div>
         <div id="supplier-list-container" class="p-4 overflow-y-auto"></div>
-        <div class="p-4 mt-auto border-t border-gray-700 flex justify-between">
+        <div class="p-4 mt-auto border-t border-slate-700 flex justify-between">
             <div>
-                <button id="select-all-suppliers-btn" class="px-4 py-2 text-sm rounded-md bg-gray-600 hover:bg-gray-500">Select All</button>
-                <button id="deselect-all-suppliers-btn" class="px-4 py-2 text-sm rounded-md bg-gray-600 hover:bg-gray-500 ml-2">Deselect All</button>
+                <button id="select-all-suppliers-btn" class="px-4 py-2 text-sm rounded-md bg-slate-600 hover:bg-slate-500">Select All</button>
+                <button id="deselect-all-suppliers-btn" class="px-4 py-2 text-sm rounded-md bg-slate-600 hover:bg-slate-500 ml-2">Deselect All</button>
             </div>
-            <button id="apply-supplier-filter-btn" class="px-4 py-2 text-sm rounded-md bg-indigo-600 hover:bg-indigo-700 font-semibold">Apply Filter</button>
+            <button id="apply-supplier-filter-btn" class="px-4 py-2 text-sm rounded-md bg-[var(--accent-color)] hover:bg-[var(--accent-color-hover)] font-semibold">Apply Filter</button>
         </div>
     </div>
   </div>
@@ -586,10 +593,12 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
     const applyTheme = (isLight) => {
         if (isLight) {
             document.documentElement.classList.add('light-mode');
+            document.documentElement.classList.remove('dark');
             sunIcon.classList.remove('hidden');
             moonIcon.classList.add('hidden');
         } else {
             document.documentElement.classList.remove('light-mode');
+            document.documentElement.classList.add('dark');
             sunIcon.classList.add('hidden');
             moonIcon.classList.remove('hidden');
         }
@@ -597,6 +606,7 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
 
     themeToggleBtn.addEventListener('click', () => {
         const isLight = document.documentElement.classList.toggle('light-mode');
+        document.documentElement.classList.toggle('dark', !isLight);
         localStorage.setItem('theme', isLight ? 'light' : 'dark');
         applyTheme(isLight);
     });
@@ -636,7 +646,7 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
         forgotPasswordForm.classList.add('hidden');
         authMessageDiv.classList.add('hidden');
         authTitle.textContent = 'Member Login';
-        authSubtitle.textContent = 'Access the Supplier Database';
+        authSubtitle.textContent = 'Access the Supplier Database V2';
     }
 
     showSignupBtn.addEventListener('click', () => {
@@ -645,7 +655,7 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
         forgotPasswordForm.classList.add('hidden');
         authMessageDiv.classList.add('hidden');
         authTitle.textContent = 'Create Account';
-        authSubtitle.textContent = 'Join the Supplier Database';
+        authSubtitle.textContent = 'Join the Supplier Database V2';
     });
     
     showForgotPasswordBtn.addEventListener('click', () => {
@@ -785,8 +795,8 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
                     const log = doc.data();
                     const date = log.timestamp.toDate();
                     const row = `
-                        <tr class="border-b border-gray-700/50">
-                            <td class="p-3 text-sm text-gray-400">${date.toLocaleString()}</td>
+                        <tr class="border-b border-slate-700/50">
+                            <td class="p-3 text-sm text-slate-400">${date.toLocaleString()}</td>
                             <td class="p-3 text-sm text-green-400">Success</td>
                         </tr>
                     `;
@@ -794,7 +804,7 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
                 }
             });
             if (count === 0) {
-                recentCallsTbody.innerHTML = '<tr><td colspan="2" class="p-3 text-center text-gray-500">No API calls in the last 24 hours.</td></tr>';
+                recentCallsTbody.innerHTML = '<tr><td colspan="2" class="p-3 text-center text-slate-500">No API calls in the last 24 hours.</td></tr>';
             }
 
         } catch (error) {
@@ -1102,7 +1112,7 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
 
     function createItemCard(item) {
         var card = document.createElement('div');
-        card.className = 'glass-modal rounded-lg shadow-lg overflow-hidden flex flex-col cursor-pointer hover:border-indigo-500 result-card transition-all duration-300 hover:shadow-indigo-500/20';
+        card.className = 'glass-modal rounded-lg shadow-lg overflow-hidden flex flex-col cursor-pointer hover:border-[var(--accent-color)] result-card transition-all duration-300 hover:shadow-[var(--accent-color)]/20';
         card.dataset.sku = item.sku;
         var placeholderImg = 'https://i.imgur.com/IUBzxFv.jpeg';
         var imageWrapper = document.createElement('div');
@@ -1130,7 +1140,7 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
         if(item.size && String(item.size).trim() !== "") {
             infoHtml += '<p class="text-sm mb-2">Size: ' + item.size + '</p>';
         }
-        var suppliersHtml = '<div class="mt-auto pt-2 border-t border-gray-700">';
+        var suppliersHtml = '<div class="mt-auto pt-2 border-t border-slate-700">';
         if (item.suppliers && item.suppliers.length > 0) {
             const lowestPriceValue = item.lowestPrice > 0 ? item.lowestPrice : Infinity;
             
@@ -1164,13 +1174,13 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
             skeleton.innerHTML = '<div class="skeleton-image"></div><div class="p-4"><div class="skeleton-text w-3/4"></div><div class="skeleton-text w-1/2"></div></div>';
             loaderContainer.appendChild(skeleton);
         }
-        loaderContainer.style.display = 'grid';
+        loaderContainer.classList.remove('hidden');
         resultsContainer.innerHTML = '';
         noResultsDiv.style.display = 'none';
         errorDisplay.classList.add('hidden');
         controlsBar.style.display = 'none';
     }
-    function hideLoader() { loaderContainer.style.display = 'none'; }
+    function hideLoader() { loaderContainer.classList.add('hidden'); }
     function showNoResults() {
         resultsContainer.innerHTML = '';
         noResultsDiv.style.display = 'block';
@@ -1185,18 +1195,18 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
         paginationContainer.innerHTML = '';
         const prevBtn = document.createElement('button');
         prevBtn.innerHTML = '&laquo; Prev';
-        prevBtn.className = 'px-3 py-1 rounded-md text-sm font-medium bg-gray-700 text-gray-200 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed';
+        prevBtn.className = 'px-3 py-1 rounded-md text-sm font-medium bg-slate-700 text-slate-200 hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed';
         prevBtn.disabled = currentPage === 1;
         prevBtn.onclick = () => {
             currentPage--;
             fetchData(currentQueryConstraints, 'prev');
         };
         const pageInfo = document.createElement('span');
-        pageInfo.className = 'px-3 py-1 text-sm text-gray-400';
+        pageInfo.className = 'px-3 py-1 text-sm text-slate-400';
         pageInfo.textContent = 'Page ' + currentPage;
         const nextBtn = document.createElement('button');
         nextBtn.innerHTML = 'Next &raquo;';
-        nextBtn.className = 'px-3 py-1 rounded-md text-sm font-medium bg-gray-700 text-gray-200 hover:bg-gray-600';
+        nextBtn.className = 'px-3 py-1 rounded-md text-sm font-medium bg-slate-700 text-slate-200 hover:bg-slate-600';
         nextBtn.onclick = () => {
             currentPage++;
             fetchData(currentQueryConstraints, 'next');
@@ -1225,7 +1235,7 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
             checkbox.id = `supplier-cb-${name}`;
             checkbox.value = name;
             checkbox.checked = !excludedSuppliers.has(name);
-            checkbox.className = 'h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500';
+            checkbox.className = 'h-4 w-4 rounded border-slate-300 text-[var(--accent-color)] focus:ring-[var(--accent-color)]';
             const label = document.createElement('label');
             label.htmlFor = checkbox.id;
             label.textContent = name;
@@ -1313,7 +1323,7 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
                 const isLowest = (price === item.lowestPrice && price < Infinity);
                 const priceClass = isLowest ? 'text-green-400 font-bold' : '';
                 return `
-                    <tr class="border-b border-gray-700/50">
+                    <tr class="border-b border-slate-700/50">
                         <td class="p-3 text-sm">${supplier.name}</td>
                         <td class="p-3 text-sm text-center font-mono ${priceClass}">${priceText}</td>
                         <td class="p-3 text-sm text-center font-mono">${inventoryText}</td>
@@ -1321,7 +1331,7 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
                 `;
             }).join('');
         } else {
-            suppliersHtml = '<tr><td colspan="3" class="p-3 text-center text-gray-500">No supplier information available.</td></tr>';
+            suppliersHtml = '<tr><td colspan="3" class="p-3 text-center text-slate-500">No supplier information available.</td></tr>';
         }
 
         const msrpText = (typeof item.msrp === 'number') ? `$${item.msrp.toFixed(2)}` : (item.msrp || 'N/A');
@@ -1332,7 +1342,7 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
                 <div class="aspect-square bg-white rounded-lg flex items-center justify-center p-2 shadow-md">
                     <img id="modal-item-image" src="${imageUrl}" alt="${item.itemName}" class="max-w-full max-h-full object-contain cursor-pointer hover:opacity-90 transition-opacity" onerror="this.src='${placeholderImg}'">
                 </div>
-                <p class="text-xs text-center text-gray-500 mt-2">Click image to enlarge</p>
+                <p class="text-xs text-center text-slate-500 mt-2">Click image to enlarge</p>
             </div>
             <div class="md:col-span-2">
                 <h2 class="text-2xl font-bold">${item.itemName || 'N/A'}</h2>
@@ -1352,7 +1362,7 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
           </div>
           <div class="px-4 sm:px-6 pb-4 sm:pb-6 mt-4">
             <h3 class="text-lg font-semibold mb-2">Supplier Stock & Pricing</h3>
-            <div class="border border-gray-700/50 rounded-lg overflow-hidden">
+            <div class="border border-slate-700/50 rounded-lg overflow-hidden">
                 <table class="w-full">
                     <thead>
                         <tr>
@@ -1389,6 +1399,7 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
         imageLightbox.classList.add('hidden');
         imageLightbox.classList.remove('flex');
     });
+    noResultsBrowseBtn.addEventListener('click', handleBrowseAll);
   </script>
 </body>
 </html>
