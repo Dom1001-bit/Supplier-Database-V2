@@ -777,12 +777,18 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
         const twentyFourHoursAgo = firebase.firestore.Timestamp.fromMillis(Date.now() - 24 * 60 * 60 * 1000);
         
         try {
+            // FIX: Simplified query to avoid composite index requirement.
             const querySnapshot = await apiLogsCollection
                 .where("userId", "==", user.uid)
-                .where("timestamp", ">=", twentyFourHoursAgo)
                 .get();
 
-            const usageCount = querySnapshot.size;
+            // FIX: Perform filtering and sorting on the client-side.
+            const recentDocs = querySnapshot.docs.filter(doc => {
+                const log = doc.data();
+                return log.timestamp && log.timestamp >= twentyFourHoursAgo;
+            });
+
+            const usageCount = recentDocs.length;
             const usagePercentage = (usageCount / 300) * 100;
             
             apiUsageText.textContent = `${usageCount} / 300 calls`;
@@ -790,7 +796,8 @@ curl -L -X GET "https://supplier-api-977359606390.us-central1.run.app?sku=PRODUC
             
             recentCallsTbody.innerHTML = '';
             let count = 0;
-            querySnapshot.docs.sort((a, b) => b.data().timestamp - a.data().timestamp).forEach(doc => {
+            
+            recentDocs.sort((a, b) => b.data().timestamp - a.data().timestamp).forEach(doc => {
                 if (count++ < 10) {
                     const log = doc.data();
                     const date = log.timestamp.toDate();
